@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+    <form action="/crawl/" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Submit">
+    </form>
+  </div>
+</div>
+
+
+<div class="accordion" id="accordionExample">
+  {% for i1 in data.nested %}
+  <div class="accordion-item">
+      <h2 class="accordion-header" id="heading_{{forloop.counter}}">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne_{{forloop.counter}}" aria-expanded="true" aria-controls="collapseOne_{{forloop.counter}}">
+              {{ i1.title }} - {{ i1.url }}
+          </button>
+      </h2>
+      <div id="collapseOne_{{forloop.counter}}" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+              {% for i2 in i1.nested %}
+              <div class="accordion" id="sub-accordionExample_{{forloop.counter}}{{count.value}}">
+                  <div class="accordion-item">
+                      <h2 class="accordion-header" id="sub-headingOne_{{forloop.counter}}">
+                          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#sub-collapseOne_{{forloop.counter}}" aria-expanded="true" aria-controls="collapseOne">
+                              {{ i2.title}} - {{ i2.url }}
+                          </button>
+                      </h2>
+                      <div id="sub-collapseOne_{{forloop.counter}}" class="accordion-collapse collapse" aria-labelledby="sub-headingOne" data-bs-parent="#sub-accordionExample">
+                          <div class="accordion-body">
+                              <strong></strong>.
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              {% endfor %}
+          </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+</div>
+
+
+{% endblock %}
